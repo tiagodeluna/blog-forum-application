@@ -24,8 +24,8 @@ import com.lunablog.exception.UnacceptableContentException;
 public class URLReader {
 
 	private static final String CONTENT_TYPE = "text/plain";
-	private static final String AUTH_USER = "tiago.luna";
-	private static final String AUTH_PASSWORD = "Dtpv@2017";
+	private static final String AUTH_USER = "zzz";
+	private static final String AUTH_PASSWORD = "xxx";
 	private HttpURLConnection connection;
 	
 	public URLReader() {
@@ -82,8 +82,21 @@ public class URLReader {
 			throw new InvalidFileUrlException(url);
 		}
 	}
-	
+
 	private void openConnection(String url) throws InvalidFileUrlException {
+		try {
+			connection = (HttpURLConnection) new URL(url).openConnection();
+			connection.setDoOutput(true);
+			connection.setDoInput(true);
+//			connection.setRequestProperty("Content-type", "text/xml");
+			connection.setRequestProperty("Accept", CONTENT_TYPE);
+			connection.setRequestMethod("GET");
+		} catch (IOException e) {
+			throw new InvalidFileUrlException(url, e);
+		}
+	}
+	
+	private void openConnectionWithProxy(String url) throws InvalidFileUrlException {
 		Authenticator.setDefault(
 		   new Authenticator() {
 		      @Override

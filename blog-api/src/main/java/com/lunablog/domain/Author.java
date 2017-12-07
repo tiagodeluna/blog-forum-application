@@ -22,6 +22,7 @@ public class Author {
 	private List<SocialMediaAccount> socialMediaAccounts;
 	
 	public void addSocialMediaAccount(SocialMediaAccount account) {
+		SocialMediaAccount s = new SocialMediaAccount();
 		this.socialMediaAccounts.removeIf(
 				a -> a.getSocialMedia().equals(account.getSocialMedia()));
 		this.socialMediaAccounts.add(account);
