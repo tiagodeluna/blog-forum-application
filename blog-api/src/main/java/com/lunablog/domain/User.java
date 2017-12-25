@@ -2,6 +2,8 @@ package com.lunablog.domain;
 
 import java.util.Date;
 
+import org.springframework.data.annotation.Id;
+
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -11,7 +13,8 @@ import lombok.Setter;
 @EqualsAndHashCode(of={"username"})
 public class User {
 
-	private int id;
+	@Id
+	private String id;
 	private String name;
 	private String username;
 	private String password;

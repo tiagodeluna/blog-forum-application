@@ -1,3 +1,4 @@
+package com.lunablog.application;
 import com.lunablog.exception.InvalidFileUrlException;
 import com.lunablog.exception.UnacceptableContentException;
 import com.lunablog.infrastructure.URLReader;
