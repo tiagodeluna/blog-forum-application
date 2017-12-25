@@ -1,4 +1,4 @@
-package com.lunablog.domain;
+package com.lunablog.api.domain;
 
 import java.util.Date;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.lunablog.domain;
+package com.lunablog.api.domain;
 
 public class Theme {
 

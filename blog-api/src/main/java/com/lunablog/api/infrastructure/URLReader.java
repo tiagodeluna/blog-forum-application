@@ -1,4 +1,4 @@
-package com.lunablog.infrastructure;
+package com.lunablog.api.infrastructure;
 
 
 import java.io.BufferedReader;
@@ -13,8 +13,8 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 
-import com.lunablog.exception.InvalidFileUrlException;
-import com.lunablog.exception.UnacceptableContentException;
+import com.lunablog.api.exception.InvalidFileUrlException;
+import com.lunablog.api.exception.UnacceptableContentException;
 
 /**
  * Reads the URL provided returning its content. 

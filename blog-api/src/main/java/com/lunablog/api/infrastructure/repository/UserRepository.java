@@ -1,8 +1,8 @@
-package com.lunablog.infrastructure.repository;
+package com.lunablog.api.infrastructure.repository;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 
-import com.lunablog.domain.User;
+import com.lunablog.api.domain.User;
 
 public interface UserRepository extends MongoRepository<User, String> {
 	

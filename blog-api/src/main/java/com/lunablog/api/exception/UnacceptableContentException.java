@@ -1,4 +1,4 @@
-package com.lunablog.exception;
+package com.lunablog.api.exception;
 
 import java.io.IOException;
 

@@ -1,7 +1,7 @@
-package com.lunablog.application;
-import com.lunablog.exception.InvalidFileUrlException;
-import com.lunablog.exception.UnacceptableContentException;
-import com.lunablog.infrastructure.URLReader;
+package com.lunablog.api;
+import com.lunablog.api.exception.InvalidFileUrlException;
+import com.lunablog.api.exception.UnacceptableContentException;
+import com.lunablog.api.infrastructure.URLReader;
 
 public class Main {
 

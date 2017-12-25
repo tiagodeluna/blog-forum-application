@@ -1,8 +1,8 @@
-package com.lunablog.domain;
+package com.lunablog.api.domain;
 
 import java.util.List;
 
-import com.lunablog.domain.widget.Widget;
+import com.lunablog.api.domain.widget.Widget;
 
 import lombok.Getter;
 import lombok.Setter;
