@@ -20,4 +20,5 @@ public class User {
 	private String password;
 	private String email;
 	private Date registrationDate;
+	private Date lastLoginDate;
 }

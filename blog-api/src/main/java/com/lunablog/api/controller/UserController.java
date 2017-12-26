@@ -75,11 +75,13 @@ public class UserController {
         User user = repository.findOne(id);
         return user == null ? ResponseEntity.notFound().build() : ResponseEntity.ok(user);
     }
-    
+
+    @GetMapping("/login")
     public ResponseEntity<User> doLogin(@RequestParam String username, @RequestParam String password) {
     	LOGGER.info(String.format("logging in with username \"%s\"", username));
     	//TODO Implement it!
-    	return null;
+    	User user = null;
+    	return ResponseEntity.ok(user);
     }
 
 }
