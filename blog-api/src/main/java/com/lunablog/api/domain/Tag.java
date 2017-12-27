@@ -1,5 +1,7 @@
 package com.lunablog.api.domain;
 
+import org.springframework.data.mongodb.core.index.Indexed;
+
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -9,6 +11,6 @@ import lombok.Setter;
 @EqualsAndHashCode(of={"label"})
 public class Tag {
 
-	private int id;
+	@Indexed(unique=true)
 	private String label;
 }
