@@ -8,7 +8,7 @@ import com.lunablog.api.domain.User;
 public class MockUserRepository {
 
 	private List<User> users;
-	
+
 	public MockUserRepository() {
 		super();
 		users = new ArrayList<>();
@@ -23,27 +23,32 @@ public class MockUserRepository {
 	public List<User> findAll() {
 		return users;
 	}
-	
+
 	public User findOne(String id) {
 		return users.stream()
 				.filter(u -> u.getId().equals(id))
 				.findFirst()
 				.orElse(null);
 	}
-	
+
 	public User save(User user) {
 		//Update
 		int index = users.indexOf(user);
 		if (index >= 0) {
 			return users.set(index, user);
 		}
-		
+
 		//Insert
 		String id = Integer.toString(users.size()+1);
 		user.setId(id);
 		users.add(user);
-		
+
 		return user;
-		
 	}
+
+	public List<User> save(List<User> usersToSave) {
+		usersToSave.forEach(user -> user = this.save(user));
+		return usersToSave;
+	}
+
 }
