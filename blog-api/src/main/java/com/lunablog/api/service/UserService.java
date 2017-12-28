@@ -29,7 +29,7 @@ public class UserService {
     	currentUser.setEmail(user.getEmail());
     	currentUser.setName(user.getName());
     	//TODO Do HASH password
-    	currentUser.setPassword(user.getPassword());
+//    	currentUser.setPassword(user.getPassword());
     	repository.save(currentUser);
 
 		return currentUser;

@@ -56,10 +56,11 @@ public class UserController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     	
-    	currentUser.setEmail(user.getEmail());
-    	currentUser.setName(user.getName());
-    	currentUser.setPassword(user.getPassword());
-    	repository.save(currentUser);
+    	//TODO Use this: BeanUtils.copyProperties(restaurant, restaurantRecovered, "id");
+//    	currentUser.setEmail(user.getEmail());
+//    	currentUser.setName(user.getName());
+//    	currentUser.setPassword(user.getPassword());
+    	currentUser = repository.save(currentUser);
 
     	return ResponseEntity.ok(currentUser);
     }

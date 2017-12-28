@@ -24,10 +24,11 @@ public class User {
 	private String password;
 	@Indexed(unique=true)
 	private String email;
-	private Date registrationDate;
+	private Date registrationDate = new Date();
 	private Date lastLoginDate;
 	private String profileDescription;
 	private Date dateOfBirth;
+	
 //	private List<SocialMediaAccount> socialMediaAccounts;
 	
 //	public void addSocialMediaAccount(SocialMediaAccount account) {

@@ -3,6 +3,9 @@ package com.lunablog.api.domain;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
+
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,13 +15,15 @@ import lombok.Setter;
 @EqualsAndHashCode(of={"id", "url"})
 public class Site {
 
-	private int id;
+	@Id
+	private String id;
 	private String name;
+	@Indexed(unique=true)
 	private String url;
 	private String description;
 	private Date creationDate;
-	private Author owner;
-	private List<Author> collaborators;
+	private User owner;
+	private List<User> collaborators;
 	private List<Category> categories;
 	private List<Post> posts;
 
