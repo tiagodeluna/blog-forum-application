@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './css/pure-min.css';
 import './css/side-menu.css';
+import { Link } from 'react-router-dom';
 import UserBox from './User';
 
 class App extends Component {
@@ -16,26 +17,27 @@ class App extends Component {
                 <a className="pure-menu-heading" href="#">Luna Forum</a>
 
                 <ul className="pure-menu-list">
-                    <li className="pure-menu-item"><a href="#" className="pure-menu-link">Home</a></li>
-                    <li className="pure-menu-item"><a href="#" className="pure-menu-link">About</a></li>
-                    <li className="pure-menu-item"><a href="#" className="pure-menu-link">Topics</a></li>
                     <li className="pure-menu-item menu-item-divided pure-menu-selected">
-                        <a href="#" className="pure-menu-link">Users</a>
+                        <Link to="#" className="pure-menu-link">Home</Link>
                     </li>
-                    <li className="pure-menu-item"><a href="#" className="pure-menu-link">Profile</a></li>
+                    <li className="pure-menu-item"><Link to="#" className="pure-menu-link">About</Link></li>
+                    <li className="pure-menu-item"><Link to="#" className="pure-menu-link">Topics</Link></li>
+                    <li className="pure-menu-item"><Link to="/users" className="pure-menu-link">Users</Link></li>
                 </ul>
             </div>
         </div>
 
         <div id="main">
             <div className="header">
-                <h1>Users</h1>
+                <h1>Welcome to Luna Forum</h1>
                 <h2>Forum application developed as part of the Vanhack Accelerator Program</h2>
             </div>
             <br />
             <br />
             <div className="content" id="content">
-                <UserBox />
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, 
+                quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum 
+                dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
             </div>
           </div>            
 

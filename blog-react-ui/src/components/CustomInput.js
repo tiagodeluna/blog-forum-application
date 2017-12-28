@@ -9,9 +9,16 @@ export default class CustomInput extends Component {
     }
 
     componentDidMount() {
+        //Subscribe to handle validation errors
         PubSub.subscribe("validation-error", function(topic, error) {
-            console.log("ERROR: "+error);
-            this.setState({errorMsg:error.defaultMessage});
+            if (error.field === this.props.name) {
+                this.setState({errorMsg:error.defaultMessage});
+            }
+        }.bind(this));
+
+        //Subscribe to clear error messages
+        PubSub.subscribe("clear-errors", function(topic) {
+            this.setState({errorMsg:""});
         }.bind(this));
     }
 

@@ -29,15 +29,18 @@ class UserForm extends Component {
 			data:JSON.stringify({name:this.state.name, email:this.state.email, username:this.state.email, password:this.state.password}),
 			success: function(response){
 				//Reload list of data
-				PubSub.publish(UPDATE_LIST_TOPIC, response);
-			},
+				PubSub.publish(UPDATE_LIST_TOPIC, {});
+				//Clear fields
+				this.setState({name:"", email:"", password:""});
+			}.bind(this),
 			error: function(response){
-				//Handle validation error
+				//Handle validation errors
 				if (response.status === 400) {
-					//TODO: recuperar erros
-					//TODO: exibir mensagem nos campos
 					new ErrorHandler().showErrors(response.responseJSON);
 				}
+			},
+			beforeSend: function(){
+				PubSub.publish("clear-errors", {});
 			}
 		});
 	}
@@ -60,7 +63,7 @@ class UserForm extends Component {
 				<form className="pure-form pure-form-aligned" onSubmit={this.sendForm} method="post">
 					<CustomInput id="name" type="text" name="name" value={this.state.name} required="" onChange={this.setName} label="Name" />
 					<CustomInput id="email" type="email" name="email" value={this.state.email} required="" onChange={this.setEmail} label="Email" />
-					<CustomInput id="pswd" type="password" name="pswd" value={this.state.password} required="" onChange={this.setPassword} label="Password" />
+					<CustomInput id="pswd" type="password" name="password" value={this.state.password} required="" onChange={this.setPassword} label="Password" />
 
 					<div className="pure-control-group">
 						<label></label>
@@ -114,10 +117,8 @@ export default class UserBox extends Component {
 		this.loadUsers();
 
 		//Subscribes to reload the list when it changes
-		PubSub.subscribe(UPDATE_LIST_TOPIC, function(topic, data) {
-			if (data != null) {
-				this.loadUsers();
-			}
+		PubSub.subscribe(UPDATE_LIST_TOPIC, function(topic) {
+			this.loadUsers();
 		}.bind(this));
 	}
 
