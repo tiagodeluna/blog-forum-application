@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './css/pure-min.css';
 import './css/side-menu.css';
-import {UserForm,UsersTable} from './User';
+import UserBox from './User';
 
 class App extends Component {
   render() {
@@ -35,8 +35,7 @@ class App extends Component {
             <br />
             <br />
             <div className="content" id="content">
-              <UserForm />
-              <UsersTable />
+                <UserBox />
             </div>
           </div>            
 

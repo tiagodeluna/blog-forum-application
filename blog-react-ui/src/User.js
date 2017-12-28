@@ -1,24 +1,17 @@
 import React, { Component } from 'react';
 import $ from 'jquery';
+import PubSub from 'pubsub-js';
 import CustomInput from './components/CustomInput';
+import ErrorHandler from './ErrorHandler';
 
-/* Retrieve data via GET request and re-render page */
-function loadUsers(component) {
-	$.ajax({
-		url:"http://localhost:8080/api/users",
-		dataType:"json",
-		success:function(response){
-			//Update list and re-render page
-			component.setState({list:response});
-		}.bind(component)
-	});
-}
+var UPDATE_LIST_TOPIC = "update-user-list";
 
-export class UserForm extends Component {
+class UserForm extends Component {
+
 	constructor() {
 		super();
 		this.state = {name:"", email:"", password:""};
-		//Make 'this' from 'sendForm' refer to 'this' from UserForm
+		//Make 'this' in each function refer to 'this' from UserForm
 		this.sendForm = this.sendForm.bind(this);
 		this.setName = this.setName.bind(this);
 		this.setEmail = this.setEmail.bind(this);
@@ -35,12 +28,16 @@ export class UserForm extends Component {
 			dataType:"json",
 			data:JSON.stringify({name:this.state.name, email:this.state.email, username:this.state.email, password:this.state.password}),
 			success: function(response){
-				console.log("Sucesso!");
-				//Reload users
-				loadUsers(this);
-			}.bind(this),
+				//Reload list of data
+				PubSub.publish(UPDATE_LIST_TOPIC, response);
+			},
 			error: function(response){
-				console.log("Error!");
+				//Handle validation error
+				if (response.status === 400) {
+					//TODO: recuperar erros
+					//TODO: exibir mensagem nos campos
+					new ErrorHandler().showErrors(response.responseJSON);
+				}
 			}
 		});
 	}
@@ -61,9 +58,9 @@ export class UserForm extends Component {
 		return(
 			<div className="pure-form pure-form-aligned">
 				<form className="pure-form pure-form-aligned" onSubmit={this.sendForm} method="post">
-					<CustomInput id="name" type="text" name="name" value={this.state.name} onChange={this.setName} label="Name" />
-					<CustomInput id="email" type="email" name="email" value={this.state.email} onChange={this.setEmail} label="Email" />
-					<CustomInput id="pswd" type="password" name="pswd" value={this.state.password} onChange={this.setPassword} label="Password" />
+					<CustomInput id="name" type="text" name="name" value={this.state.name} required="" onChange={this.setName} label="Name" />
+					<CustomInput id="email" type="email" name="email" value={this.state.email} required="" onChange={this.setEmail} label="Email" />
+					<CustomInput id="pswd" type="password" name="pswd" value={this.state.password} required="" onChange={this.setPassword} label="Password" />
 
 					<div className="pure-control-group">
 						<label></label>
@@ -75,26 +72,7 @@ export class UserForm extends Component {
 	}
 }
 
-export class UsersTable extends Component {
-	constructor() {
-		super();
-		this.state = {list:[]};
-	}
-
-	componentDidMount() {
-		loadUsers(this);
-	}
-
-	loadUsers() {
-		$.ajax({
-			url:"http://localhost:8080/api/users",
-			dataType:"json",
-			success:function(response){
-				//Update list and re-render page
-				this.setState({list:response});
-			}.bind(this)
-		});
-	}
+class UsersTable extends Component {
 
 	render() {
 		return(
@@ -108,7 +86,7 @@ export class UsersTable extends Component {
 				</thead>
 				<tbody>
 					{
-						this.state.list.map(function(user){
+						this.props.list.map(function(user){
 							return (
 								<tr key={user.id}>
 									<td>{user.name}</td>
@@ -120,6 +98,47 @@ export class UsersTable extends Component {
 				</tbody>
 				</table> 
 			</div>             
+		);
+	}
+}
+
+export default class UserBox extends Component {
+
+	constructor() {
+		super();
+		this.state = {list:[]};
+		this.loadUsers = this.loadUsers.bind(this);
+	}
+
+	componentDidMount() {
+		this.loadUsers();
+
+		//Subscribes to reload the list when it changes
+		PubSub.subscribe(UPDATE_LIST_TOPIC, function(topic, data) {
+			if (data != null) {
+				this.loadUsers();
+			}
+		}.bind(this));
+	}
+
+	//Retrieve data via GET request and re-render page
+	loadUsers() {
+		$.ajax({
+			url:"http://localhost:8080/api/users",
+			dataType:"json",
+			success:function(response){
+				//Update list and re-render page
+				this.setState({list:response});
+			}.bind(this)
+		});
+	}
+
+	render() {
+		return (
+			<div>
+              <UserForm />
+              <UsersTable list={this.state.list} />
+            </div>
 		);
 	}
 }
