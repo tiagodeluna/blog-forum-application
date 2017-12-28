@@ -6,6 +6,7 @@ import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +21,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.lunablog.api.domain.User;
-import com.lunablog.api.infrastructure.repository.UserRepository;
 
 @RestController
 @RequestMapping("/api/users")
@@ -31,11 +31,13 @@ public class UserController {
 
 	@Autowired
 	private UserRepository repository;
+//	private MockUserRepository repository = new MockUserRepository();
 	
     @PostMapping
     public ResponseEntity<User> create(@Valid @RequestBody User user) {
     	LOGGER.info("Creating user...");
-        User userSaved = repository.save(user);
+    	
+    	User userSaved = repository.save(user);
         return ResponseEntity.status(HttpStatus.CREATED).body(userSaved);
     }
 
@@ -44,25 +46,21 @@ public class UserController {
     	LOGGER.info("Creating bulk users...");
     	List<User> usersSaved = repository.save(userList);
         return ResponseEntity.status(HttpStatus.CREATED).body(usersSaved);
+//    	return null;
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<User> update(@PathVariable String id, @Valid @RequestBody User user) {
     	LOGGER.info(String.format("Updating user with id: %s", id));
-    	User currentUser = repository.findOne(id);
+    	User userRecovered = repository.findOne(id);
     	
-    	if (currentUser == null) {
+    	if (userRecovered == null) {
         	LOGGER.error(String.format("User with id \"%s\" not found.", id));
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     	
-    	//TODO Use this: BeanUtils.copyProperties(restaurant, restaurantRecovered, "id");
-//    	currentUser.setEmail(user.getEmail());
-//    	currentUser.setName(user.getName());
-//    	currentUser.setPassword(user.getPassword());
-    	currentUser = repository.save(currentUser);
-
-    	return ResponseEntity.ok(currentUser);
+    	BeanUtils.copyProperties(user, userRecovered, "id");
+    	return ResponseEntity.ok(repository.save(userRecovered));
     }
 
     @GetMapping
