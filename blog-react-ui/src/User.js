@@ -136,10 +136,18 @@ export default class UserBox extends Component {
 
 	render() {
 		return (
-			<div>
-              <UserForm />
-              <UsersTable list={this.state.list} />
-            </div>
+	        <div>
+	            <div className="header">
+	                <h1>Users</h1>
+	                <h2>Users administration area. You can search, create, edit and delete your user accounts here.</h2>
+	            </div>
+	            <br />
+	            <br />
+	            <div className="content" id="content">
+					<UserForm />
+					<UsersTable list={this.state.list} />
+	            </div>
+	        </div>
 		);
 	}
 }
