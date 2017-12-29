@@ -9,4 +9,8 @@ public class Category extends Tag {
 
 	private String name;
 	
+	public Category(String label, String name) {
+		super(label);
+		this.name = name;
+	}
 }

@@ -1,5 +1,6 @@
 package com.lunablog.api.domain;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -22,9 +23,9 @@ public class Post {
 	private String title;
 	private String customUrl;
 	private String content;
-	private Date publicationDate;
+	private Date publicationDate = new Date();
 	private Date lastUpdate;
-	private List<Tag> tags;
-	private List<Category> categories;
-	private List<Comment> comments;
+	private List<Tag> tags = new ArrayList<>();
+	private List<Category> categories = new ArrayList<>();
+	private List<Comment> comments = new ArrayList<>();
 }

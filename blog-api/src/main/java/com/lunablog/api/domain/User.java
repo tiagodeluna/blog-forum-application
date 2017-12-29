@@ -2,8 +2,6 @@ package com.lunablog.api.domain;
 
 import java.util.Date;
 
-import javax.validation.constraints.NotNull;
-
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.annotation.Id;
@@ -24,11 +22,13 @@ public class User {
 	private String id;
 	@NotEmpty
 	private String name;
-	@Indexed(unique=true) @NotNull
+	@Indexed(unique=true)
+	@NotEmpty
 	private String username;
 	@NotEmpty
 	private String password;
-	@Indexed(unique=true) @NotEmpty @Email
+	@Indexed(unique=true)
+	@NotEmpty @Email
 	private String email;
 	private Date registrationDate = new Date();
 	private Date lastLoginDate;

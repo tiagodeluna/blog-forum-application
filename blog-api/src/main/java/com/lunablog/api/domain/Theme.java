@@ -1,8 +1,11 @@
 package com.lunablog.api.domain;
 
+import org.springframework.data.annotation.Id;
+
 public class Theme {
 
-	private int id;
+	@Id
+	private String id;
 	private Object layoutType;
 	private Object stylesheet;
 }
