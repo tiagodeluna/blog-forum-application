@@ -1,0 +1,12 @@
+.custom-button-right-aligned {
+    border-radius: 0 0 15px 15px;
+    float: right;
+    margin-right: 10px;
+    text-decoration: none;
+}
+
+.custom-button-right-aligned:hover,
+.custom-button-right-aligned:active,
+.custom-button-right-aligned:visited {
+    text-decoration: none;
+}

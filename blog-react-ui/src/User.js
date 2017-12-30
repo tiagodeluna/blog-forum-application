@@ -59,7 +59,7 @@ class UserForm extends Component {
 
 	render() {
 		return(
-			<form className="pure-form  pure-form-stacked" onSubmit={this.sendForm} method="post">
+			<form className="pure-form pure-form-stacked" onSubmit={this.sendForm} method="post">
 				<fieldset>
 					<CustomInput id="name" type="text" value={this.state.name} required="required" onChange={this.setName} label="Name" />
 					<CustomInput id="email" type="email" value={this.state.email} required="required" onChange={this.setEmail} label="Email" />

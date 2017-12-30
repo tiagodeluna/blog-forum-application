@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './css/pure.css';
 import './css/blog.css';
 import './css/side-menu.css';
+import './css/custom.css';
 import { Link } from 'react-router-dom';
 
 class App extends Component {
@@ -29,6 +30,7 @@ class App extends Component {
         </div>
 
         <div id="main">
+            <Link to="/login" className="pure-button pure-button-primary custom-button-right-aligned">Login</Link>
             {this.props.children}
         </div>            
 

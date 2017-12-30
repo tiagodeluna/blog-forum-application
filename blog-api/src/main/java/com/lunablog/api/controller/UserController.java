@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.lunablog.api.domain.User;
@@ -74,14 +73,6 @@ public class UserController {
     	LOGGER.info(String.format("Finding user by id: %s", id));
         User user = repository.findOne(id);
         return user == null ? ResponseEntity.notFound().build() : ResponseEntity.ok(user);
-    }
-
-    @GetMapping("/login")
-    public ResponseEntity<User> doLogin(@RequestParam String username, @RequestParam String password) {
-    	LOGGER.info(String.format("logging in with username \"%s\"", username));
-    	//TODO Implement it!
-    	User user = null;
-    	return ResponseEntity.ok(user);
     }
 
 }
