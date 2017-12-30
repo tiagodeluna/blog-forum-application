@@ -91,10 +91,10 @@ public class PostRepository {
 			.collect(Collectors.toList());
 	}
 	
-	public List<Post> findByTag(String tag) {
+	public List<Post> findByTagLabel(String tagLabel) {
 		return this.posts.stream()
 			.filter(p -> p.getTags().stream()
-						.anyMatch(t -> t.getLabel().equals(tag)))
+						.anyMatch(t -> t.getLabel().equals(tagLabel)))
 			.collect(Collectors.toList());
 	}
 

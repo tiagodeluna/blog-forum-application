@@ -4,7 +4,7 @@ import PubSub from 'pubsub-js';
 import CustomInput from './components/CustomInput';
 import ErrorHandler from './ErrorHandler';
 
-var UPDATE_LIST_TOPIC = "update-user-list";
+var UPDATE_USER_LIST = "update-user-list";
 
 class UserForm extends Component {
 
@@ -29,7 +29,7 @@ class UserForm extends Component {
 			data:JSON.stringify({name:this.state.name, email:this.state.email, username:this.state.email, password:this.state.password}),
 			success: function(response){
 				//Reload list of data
-				PubSub.publish(UPDATE_LIST_TOPIC, {});
+				PubSub.publish(UPDATE_USER_LIST, {});
 				//Clear fields
 				this.setState({name:"", email:"", password:""});
 			}.bind(this),
@@ -59,22 +59,20 @@ class UserForm extends Component {
 
 	render() {
 		return(
-			<div className="pure-form pure-form-aligned">
-				<form className="pure-form pure-form-aligned" onSubmit={this.sendForm} method="post">
-					<CustomInput id="name" type="text" name="name" value={this.state.name} required="" onChange={this.setName} label="Name" />
-					<CustomInput id="email" type="email" name="email" value={this.state.email} required="" onChange={this.setEmail} label="Email" />
-					<CustomInput id="pswd" type="password" name="password" value={this.state.password} required="" onChange={this.setPassword} label="Password" />
+			<form className="pure-form  pure-form-stacked" onSubmit={this.sendForm} method="post">
+				<fieldset>
+					<CustomInput id="name" type="text" value={this.state.name} required="required" onChange={this.setName} label="Name" />
+					<CustomInput id="email" type="email" value={this.state.email} required="required" onChange={this.setEmail} label="Email" />
+					<CustomInput id="password" type="password" value={this.state.password} required="required" onChange={this.setPassword} label="Password" />
 
-					<div className="pure-control-group">
-						<label></label>
-						<button type="submit" className="pure-button pure-button-primary">Save</button>
-					</div>
-				</form>
-			</div>
+					<button type="submit" className="pure-button pure-button-primary">Save</button>
+				</fieldset>
+			</form>
 		);
 	}
 }
 
+//Generates users table
 class UsersTable extends Component {
 
 	render() {
@@ -105,6 +103,7 @@ class UsersTable extends Component {
 	}
 }
 
+//Generates admin User page
 export default class UserBox extends Component {
 
 	constructor() {
@@ -117,7 +116,7 @@ export default class UserBox extends Component {
 		this.loadUsers();
 
 		//Subscribes to reload the list when it changes
-		PubSub.subscribe(UPDATE_LIST_TOPIC, function(topic) {
+		PubSub.subscribe(UPDATE_USER_LIST, function(topic) {
 			this.loadUsers();
 		}.bind(this));
 	}
@@ -141,7 +140,6 @@ export default class UserBox extends Component {
 	                <h1>Users</h1>
 	                <h2>Users administration area. You can search, create, edit and delete your user accounts here.</h2>
 	            </div>
-	            <br />
 	            <br />
 	            <div className="content" id="content">
 					<UserForm />

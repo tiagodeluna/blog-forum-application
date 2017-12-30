@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PubSub from 'pubsub-js';
 
-export default class CustomInput extends Component {
+export default class CustomTextArea extends Component {
 
     constructor() {
         super();
@@ -11,7 +11,7 @@ export default class CustomInput extends Component {
     componentDidMount() {
         //Subscribe to handle validation errors
         PubSub.subscribe("validation-error", function(topic, error) {
-            if (error.field === this.props.id) {
+            if (error.field === this.props.name) {
                 this.setState({errorMsg:error.defaultMessage});
             }
         }.bind(this));
@@ -25,9 +25,8 @@ export default class CustomInput extends Component {
 	render (){
 		return (
 				<div className="pure-control-group">
-					<label htmlFor={this.props.id}>{this.props.label}</label>
-					<input id={this.props.id} type={this.props.type} value={this.props.value} 
-                        required={this.props.required} onChange={this.props.onChange} className="pure-input-1" />
+					<textarea id={this.props.id} required={this.props.required} className="pure-input-1" rows="10"
+                        onChange={this.props.onChange} placeholder={this.props.placeholder} value={this.props.value} />
                     <span className="pure-form-message">{this.state.errorMsg}</span>
 				</div>	
 			);

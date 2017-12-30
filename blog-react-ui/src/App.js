@@ -20,9 +20,10 @@ class App extends Component {
                     <li className="pure-menu-item menu-item-divided pure-menu-selected">
                         <Link to="/" className="pure-menu-link">Home</Link>
                     </li>
-                    <li className="pure-menu-item"><Link to="/forum" className="pure-menu-link">Posts</Link></li>
+                    <li className="pure-menu-item"><Link to="/forum" className="pure-menu-link">Topics</Link></li>
+                    <li className="pure-menu-item"><Link to="/topic/new" className="pure-menu-link">New Topic</Link></li>
                     <li className="pure-menu-item"><Link to="/users" className="pure-menu-link">Users</Link></li>
-                    <li className="pure-menu-item"><Link to="#" className="pure-menu-link">About</Link></li>
+                    <li className="pure-menu-item"><Link to="/about" className="pure-menu-link">About</Link></li>
                 </ul>
             </div>
         </div>

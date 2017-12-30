@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.lunablog.api.domain.Post;
-import com.lunablog.api.infrastructure.repository.mock.PostRepository;
+import com.lunablog.api.infrastructure.repository.PostRepository;
 
 @RestController
 @RequestMapping("/api/posts")
@@ -77,7 +77,7 @@ public class PostController {
     @GetMapping("/tag/{tag}")
     public ResponseEntity<List<Post>> findByTag(@PathVariable String tag) {
     	LOGGER.info(String.format("Finding posts by tag: %s", tag));
-        List<Post> posts = repository.findByTag(tag);
+        List<Post> posts = repository.findByTagsLabel(tag);
         return posts == null ? ResponseEntity.notFound().build() : ResponseEntity.ok(posts);
     }
 }

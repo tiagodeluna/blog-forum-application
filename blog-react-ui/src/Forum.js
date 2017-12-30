@@ -3,7 +3,7 @@ import $ from 'jquery';
 import { Link } from 'react-router-dom';
 import { Route, Switch } from 'react-router-dom';
 
-//List all posts
+//Writes the list of posts
 function PostList(props) {
         return(
             <div>
@@ -11,20 +11,19 @@ function PostList(props) {
                 <div className="posts">
                     <h1 className="content-subhead">Recent Topics</h1>
                     {
-                        // Iterates to display each post in decreasing order of publication
+                        //Iterates to display each post in decreasing order of publication
                         props.list.map(function(post){
                             return (
                                 <section className="post" key={post.id}>
                                     <header className="post-header">
-                                        { /*<img width="48" height="48" alt="Tilo Mitra&#x27;s avatar" class="post-avatar" src="/img/common/tilo-avatar.png">*/ }
-
                                         <h2 className="post-title">{post.title}</h2>
-
                                         <p className="post-meta">
                                             By <a href="#" className="post-author">{post.author.name}</a> under
                                             {
                                                 post.tags.map(function(tag){
-                                                    return ( <Link key={tag.label} to={"/forum/"+tag.label} className="post-category" style={{background: tag.color}}>{tag.label}</Link> )
+                                                    return (
+                                                        <Link key={tag.label} to={"/forum/tag/"+tag.label} className="post-category" style={{background: tag.color}}>{tag.label}</Link>
+                                                    )
                                                 })
                                             }
                                         </p>
@@ -107,7 +106,7 @@ class ListAllPosts extends Component {
     }
 }
 
-//Routes according to option provided
+//Displays the post list according to the selected route
 export default function Forum() {
 
     return (
@@ -120,7 +119,8 @@ export default function Forum() {
             <div className="content" id="content">
                 <Switch>
                     <Route exact path="/forum" component={ListAllPosts} />
-                    <Route path="/forum/:tagLabel" component={ListByTag} />
+                    <Route path="/forum/tag/:tagLabel" component={ListByTag} />
+                    <Route path="/forum/new" component={ListByTag} />
                 </Switch>
             </div>
         </div>

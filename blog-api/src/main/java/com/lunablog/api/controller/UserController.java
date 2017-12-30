@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.lunablog.api.domain.User;
-import com.lunablog.api.infrastructure.repository.mock.UserRepository;
+import com.lunablog.api.infrastructure.repository.UserRepository;
 
 @RestController
 @RequestMapping("/api/users")
