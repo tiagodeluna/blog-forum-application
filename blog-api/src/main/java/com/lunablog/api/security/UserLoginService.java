@@ -19,7 +19,7 @@ public class UserLoginService implements UserDetailsService {
 		UserDetails user = repository.findByUsername(username);
 		
 		if (user == null) {
-			throw new UsernameNotFoundException("O usuário " + username + " não foi encontrado!");
+			throw new UsernameNotFoundException("User '" + username + "' not found!");
 		}
 		
 		return user;
