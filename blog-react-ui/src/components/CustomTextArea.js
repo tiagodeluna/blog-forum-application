@@ -24,7 +24,7 @@ export default class CustomTextArea extends Component {
 
 	render (){
 		return (
-				<div className="pure-control-group">
+				<div className="pure-control-group" style={{paddingTop: 7 +"px"}}>
 					<textarea id={this.props.id} required={this.props.required} className="pure-input-1" rows="10"
                         onChange={this.props.onChange} placeholder={this.props.placeholder} value={this.props.value} />
                     <span className="pure-form-message custom-error">{this.state.errorMsg}</span>

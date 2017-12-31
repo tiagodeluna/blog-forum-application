@@ -2,22 +2,19 @@ import React, { Component } from 'react';
 import $ from 'jquery';
 import PubSub from 'pubsub-js';
 import CustomInput from './components/CustomInput';
-import CustomTextArea from './components/CustomTextArea';
 import ErrorHandler from './ErrorHandler';
 
-var SHOW_FORM_STATUS = "user-account-created";
+var UPDATE_USER_LIST = "update-user-list";
 
 class UserForm extends Component {
 
 	constructor() {
 		super();
-		this.state = {editing: false, name:"", username: "", email:"", password:"", description: ""};
+		this.state = {name:"", email:"", password:""};
 		//Make 'this' in each function refer to 'this' from UserForm
 		this.sendForm = this.sendForm.bind(this);
 		this.setName = this.setName.bind(this);
-		this.setUsername = this.setUsername.bind(this);
 		this.setEmail = this.setEmail.bind(this);
-		this.setDescription = this.setDescription.bind(this);
 		this.setPassword = this.setPassword.bind(this);
 	}
 
@@ -29,13 +26,12 @@ class UserForm extends Component {
 			type:"post",
 			contentType:"application/json",
 			dataType:"json",
-			data:JSON.stringify({name:this.state.name, email:this.state.email, username:this.state.username,
-				password:this.state.password, profileDescription: this.state.description}),
+			data:JSON.stringify({name:this.state.name, email:this.state.email, username:this.state.email, password:this.state.password}),
 			success: function(response){
-				PubSub.publish(SHOW_FORM_STATUS, {});
-				//Change form state
-				this.setState({editing: true});
-				//this.setState({name:"", username: "", email:"", password:"", description: ""});
+				//Reload list of data
+				PubSub.publish(UPDATE_USER_LIST, {});
+				//Clear fields
+				this.setState({name:"", email:"", password:""});
 			}.bind(this),
 			error: function(response){
 				//Handle validation errors
@@ -53,16 +49,8 @@ class UserForm extends Component {
 		this.setState({name: event.target.value});
 	}
 
-	setUsername(event) {
-		this.setState({username: event.target.value});
-	}
-
 	setEmail(event) {
 		this.setState({email: event.target.value});
-	}
-
-	setDescription(event) {
-		this.setState({description: event.target.value});
 	}
 
 	setPassword(event) {
@@ -70,26 +58,47 @@ class UserForm extends Component {
 	}
 
 	render() {
-		const buttonStyle = "pure-button " + (this.state.editing ? "custom-button-success" : "pure-button-primary");
-
 		return(
 			<form className="pure-form pure-form-stacked" onSubmit={this.sendForm} method="post">
 				<fieldset>
-					<span className="custom-success">{this.state.msg}</span>
-					<CustomInput id="name" type="text" value={this.state.name} required="required"
-						onChange={this.setName} label="Full Name" />
-					<CustomInput id="username" type="text" value={this.state.username} required="required"
-						onChange={this.setUsername} label="Username" />
-					<CustomInput id="email" type="email" value={this.state.email} required="required"
-						onChange={this.setEmail} label="Email" />
-					<CustomTextArea name="description" value={this.state.description} required=""
-						onChange={this.setDescription} placeholder="Say something cool about you!" />
-					<CustomInput id="password" type="password" value={this.state.password} required="required"
-						onChange={this.setPassword} label="Password" />
+					<CustomInput id="name" type="text" value={this.state.name} required="required" onChange={this.setName} label="Name" />
+					<CustomInput id="email" type="email" value={this.state.email} required="required" onChange={this.setEmail} label="Email" />
+					<CustomInput id="password" type="password" value={this.state.password} required="required" onChange={this.setPassword} label="Password" />
 
-					<button type="submit" className={buttonStyle}>Save</button>
+					<button type="submit" className="pure-button pure-button-primary">Save</button>
 				</fieldset>
 			</form>
+		);
+	}
+}
+
+//Generates users table
+class UsersTable extends Component {
+
+	render() {
+		return(
+			<div>
+				<table className="pure-table pure-table-horizontal">
+				<thead>
+					<tr>
+						<th>Name</th>
+						<th>Email</th>
+					</tr>
+				</thead>
+				<tbody>
+					{
+						this.props.list.map(function(user){
+							return (
+								<tr key={user.id}>
+									<td>{user.name}</td>
+									<td>{user.email}</td>
+								</tr>
+							)
+						})
+					}
+				</tbody>
+				</table> 
+			</div>             
 		);
 	}
 }
@@ -99,16 +108,16 @@ export default class UserBox extends Component {
 
 	constructor() {
 		super();
-		this.state = {msg: ""};
+		this.state = {list:[]};
 		this.loadUsers = this.loadUsers.bind(this);
 	}
 
 	componentDidMount() {
-		//this.loadUsers();
+		this.loadUsers();
 
 		//Subscribes to reload the list when it changes
-		PubSub.subscribe(SHOW_FORM_STATUS, function(topic) {
-			this.setState({msg: "Your account was successfully created!"});
+		PubSub.subscribe(UPDATE_USER_LIST, function(topic) {
+			this.loadUsers();
 		}.bind(this));
 	}
 
@@ -128,12 +137,13 @@ export default class UserBox extends Component {
 		return (
 	        <div>
 	            <div className="header">
-	                <h1>Create Your Account</h1>
-	                <h2>Spend just a few minutes to create your user account and start using the wonderful Luna Forum!</h2>
+	                <h1>Users</h1>
+	                <h2>Users administration area. You can search, create, edit and delete your user accounts here.</h2>
 	            </div>
 	            <br />
 	            <div className="content" id="content">
 					<UserForm />
+					<UsersTable list={this.state.list} />
 	            </div>
 	        </div>
 		);

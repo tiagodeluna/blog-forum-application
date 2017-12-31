@@ -1264,6 +1264,15 @@ since IE8 won't execute CSS that contains a CSS3 selector.
 .pure-menu-list,
 .pure-menu-item {
     position: relative;
+    font-family: 'Raleway', sans-serif;
+    letter-spacing: 0.1em;
+    font-weight: bold;
+}
+
+.pure-menu-item a:hover,
+.pure-menu-item a:active,
+.pure-menu-item a:visited {
+    text-decoration: none;
 }
 
 .pure-menu-list {

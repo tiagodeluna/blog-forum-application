@@ -3,39 +3,45 @@ import $ from 'jquery';
 import { Link } from 'react-router-dom';
 import { Route, Switch } from 'react-router-dom';
 
+function selectTagStyle(tag) {
+    var number = (tag.trim().length + 4) % 5;
+    return `post-category-${number+1}`;
+}
+
 //Writes the list of posts
 function PostList(props) {
         return(
             <div>
                 { /*A wrapper for all the blog posts*/ }
                 <div className="posts">
-                    <h1 className="content-subhead">Recent Topics</h1>
-                    {
-                        //Iterates to display each post in decreasing order of publication
-                        props.list.map(function(post){
-                            return (
-                                <section className="post" key={post.id}>
-                                    <header className="post-header">
-                                        <h2 className="post-title">{post.title}</h2>
-                                        <p className="post-meta">
-                                            By <a href="#" className="post-author">{post.author.name}</a> under
-                                            {
-                                                post.tags.map(function(tag){
-                                                    return (
-                                                        <Link key={tag.label} to={"/forum/tag/"+tag.label} className="post-category" style={{background: tag.color}}>{tag.label}</Link>
-                                                    )
-                                                })
-                                            }
-                                        </p>
-                                    </header>
+                    <h1 className="content-subhead">{props.label}</h1>
+                {
+                    //Iterates to display each post in decreasing order of publication
+                    props.list.map(function(post){
+                        return (
+                            <section className="post" key={post.id}>
+                                <header className="post-header">
+                                    <h2 className="post-title">{post.title}</h2>
+                                    <p className="post-meta">
+                                        By <a href="#" className="post-author">{post.author.name}</a> under
+                                    {
+                                        post.tags.map(function(tag){
+                                            return (
+                                                <Link key={tag.label} to={"/forum/tag/"+tag.label}
+                                                    className={`post-category ${selectTagStyle(tag.label)}`}>{tag.label}</Link>
+                                            )
+                                        })
+                                    }
+                                    </p>
+                                </header>
 
-                                    <div className="post-description">
-                                        <p>{post.content}</p>
-                                    </div>
-                                </section>
-                            )
-                        })
-                    }
+                                <div className="post-description">
+                                    <p>{post.content}</p>
+                                </div>
+                            </section>
+                        )
+                    })
+                }
                 </div>
             </div>
         )
@@ -67,8 +73,9 @@ class ListByTag extends Component {
     }
 
     render() {
+        const label = `Topics about ${this.props.match.params.tagLabel}`;
         return(
-            <PostList list={this.state.list} />
+            <PostList list={this.state.list} label={label} />
         );
     }
 
@@ -101,7 +108,7 @@ class ListAllPosts extends Component {
 
     render() {
         return (
-            <PostList list={this.state.list} />
+            <PostList list={this.state.list} label="Recent Topics" />
         );
     }
 }
@@ -119,8 +126,7 @@ export default function Forum() {
             <div className="content" id="content">
                 <Switch>
                     <Route exact path="/forum" component={ListAllPosts} />
-                    <Route path="/forum/tag/:tagLabel" component={ListByTag} />
-                    {/*<Route path="/forum/new" component={ListByTag} />*/}
+                    <Route exact path="/forum/tag/:tagLabel" component={ListByTag} />
                 </Switch>
             </div>
         </div>

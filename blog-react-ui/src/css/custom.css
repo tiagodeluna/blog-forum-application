@@ -11,6 +11,10 @@
     text-decoration: none;
 }
 
+.custom-success {
+	color: green;
+}
+
  .custom-error {
  	color: red;
  }
@@ -19,4 +23,29 @@
 	background-color: rgb(250, 247, 250);
 	padding-left: 20px;
 	padding-right: 20px;
+}
+
+.custom-button-success,
+.custom-button-error,
+.custom-button-warning,
+.custom-button-secondary {
+    color: white;
+    border-radius: 4px;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+}
+
+.custom-button-success {
+    background: rgb(28, 184, 65); /* this is a green */
+}
+
+.custom-button-error {
+    background: rgb(202, 60, 60); /* this is a maroon */
+}
+
+.custom-button-warning {
+    background: rgb(223, 117, 20); /* this is an orange */
+}
+
+.custom-button-secondary {
+    background: rgb(66, 184, 221); /* this is a light blue */
 }

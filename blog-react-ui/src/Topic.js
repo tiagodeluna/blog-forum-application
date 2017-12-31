@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link, Route, Switch, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import $ from 'jquery';
 import PubSub from 'pubsub-js';
 import CustomInput from './components/CustomInput';
@@ -28,22 +28,16 @@ class TopicForm extends Component {
 	    const user = JSON.parse(localStorage.getItem("userdata"));
 
 		$.ajax({
-			url:"http://localhost:8080/api/posts",
+			url:`http://localhost:8080/api/posts?u-auth-token=${localStorage.getItem("auth-token")}`,
 			type:"post",
 			contentType:"application/json",
 			dataType:"json",
 			data:JSON.stringify({title:this.state.title, content:this.state.content,
 				tags:this.state.tags, author: user}),
 			success: function(response){
-				//TODO: Direcionar para a tela de detalhe do Tópico
-
 				//Reload list of data
 				PubSub.publish(NEW_TOPIC_CREATED, {});
-				//Clear fields
-				//this.setState({title:"", content:"", author: "", tags: []});
-				//Redirects to details page
-				//this.props.history.push(`/topic/${response.id}`);
-			}.bind(this),
+			},
 			error: function(response){
 				//Handle validation errors
 				if (response.status === 400) {
@@ -150,9 +144,6 @@ class TopicPreview extends Component {
 //Generates topic form page
 class TopicBox extends Component {
 
-	constructor(props){
-		super(props);
-	}
 	componentDidMount(){
 		//Substribe
 		PubSub.subscribe(NEW_TOPIC_CREATED, function(topic) {
