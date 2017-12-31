@@ -1,5 +1,6 @@
 package com.lunablog.api.domain;
 
+import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.index.Indexed;
 
 import lombok.AllArgsConstructor;
@@ -17,7 +18,8 @@ public class Tag {
 
 	@Indexed(unique=true)
 	private String label;
-	private String color;
+	@Transient
+	private String styleClass;
 	
 	public Tag(String label) {
 		this.label = label;

@@ -1,12 +1,22 @@
-.custom-button-right-aligned {
+.custom-button-right {
     border-radius: 0 0 15px 15px;
     float: right;
     margin-right: 10px;
     text-decoration: none;
 }
 
-.custom-button-right-aligned:hover,
-.custom-button-right-aligned:active,
-.custom-button-right-aligned:visited {
+.custom-button-right:hover,
+.custom-button-right:active,
+.custom-button-right:visited {
     text-decoration: none;
+}
+
+ .custom-error {
+ 	color: red;
+ }
+
+.custom-gray-box {
+	background-color: rgb(250, 247, 250);
+	padding-left: 20px;
+	padding-right: 20px;
 }

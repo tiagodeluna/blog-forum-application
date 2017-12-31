@@ -120,7 +120,7 @@ export default function Forum() {
                 <Switch>
                     <Route exact path="/forum" component={ListAllPosts} />
                     <Route path="/forum/tag/:tagLabel" component={ListByTag} />
-                    <Route path="/forum/new" component={ListByTag} />
+                    {/*<Route path="/forum/new" component={ListByTag} />*/}
                 </Switch>
             </div>
         </div>

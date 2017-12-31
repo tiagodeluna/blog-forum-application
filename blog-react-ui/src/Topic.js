@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link, Route, Switch, withRouter } from 'react-router-dom';
 import $ from 'jquery';
 import PubSub from 'pubsub-js';
 import CustomInput from './components/CustomInput';
@@ -6,23 +7,25 @@ import CustomTextArea from './components/CustomTextArea';
 import ErrorHandler from './ErrorHandler';
 
 var UPDATE_TOPIC_LIST = "update-topic-list";
+var NEW_TOPIC_CREATED = "new-topic-created";
 
 //Generates new topic form
 class TopicForm extends Component {
 
 	constructor() {
 		super();
-		this.state = {title:"", content:"", customUrl:"", tags: []};
+		this.state = {title:"", content:"", tags: []};
 		//Make 'this' in each function refer to 'this' from UserForm
 		this.sendForm = this.sendForm.bind(this);
 		this.setTitle = this.setTitle.bind(this);
 		this.setContent = this.setContent.bind(this);
-		this.setCustomUrl = this.setCustomUrl.bind(this);
 		this.setTags = this.setTags.bind(this);
 	}
 
   	sendForm(event) {
 	    event.preventDefault();
+
+	    const user = JSON.parse(localStorage.getItem("userdata"));
 
 		$.ajax({
 			url:"http://localhost:8080/api/posts",
@@ -30,14 +33,16 @@ class TopicForm extends Component {
 			contentType:"application/json",
 			dataType:"json",
 			data:JSON.stringify({title:this.state.title, content:this.state.content,
-				customUrl:this.state.customUrl, tags:this.state.tags}),
+				tags:this.state.tags, author: user}),
 			success: function(response){
 				//TODO: Direcionar para a tela de detalhe do Tópico
 
 				//Reload list of data
-				//PubSub.publish(UPDATE_LIST_TOPIC, {});
+				PubSub.publish(NEW_TOPIC_CREATED, {});
 				//Clear fields
-				this.setState({title:"", content:"", author: "", customUrl:"", tags: []});
+				//this.setState({title:"", content:"", author: "", tags: []});
+				//Redirects to details page
+				//this.props.history.push(`/topic/${response.id}`);
 			}.bind(this),
 			error: function(response){
 				//Handle validation errors
@@ -67,10 +72,6 @@ class TopicForm extends Component {
 		});
 	}
 
-	setCustomUrl(event) {
-		this.setState({customUrl: event.target.value});
-	}
-
 	setTags(event) {
 		this.setState({tags: event.target.value.split(",")}, function() {
 			this.publishPostPreview();
@@ -79,7 +80,7 @@ class TopicForm extends Component {
 
 	render() {
 		return(
-			<form className="pure-form  pure-form-stacked" onSubmit={this.sendForm} method="post">
+			<form className="pure-form pure-form-stacked" onSubmit={this.sendForm} method="post">
 				<fieldset>
 					<CustomInput id="title" type="text" name="title" value={this.state.title} required=""
 						onChange={this.setTitle} label="Title" />
@@ -87,11 +88,7 @@ class TopicForm extends Component {
 						onChange={this.setContent} placeholder="Place the topic content here..." />
 					<CustomInput id="tags" type="text" name="tags" value={this.state.tags} required=""
 						onChange={this.setTags} label="Tags" />
-					<CustomInput id="customUrl" type="text" name="customUrl" value={this.state.customUrl}
-						required="" onChange={this.setCustomUrl} label="Custom URL" />
-
 					<div className="pure-control-group">
-						<label></label>
 						<button type="submit" className="pure-button pure-button-primary">Create</button>
 					</div>
 				</fieldset>
@@ -105,7 +102,7 @@ class TopicPreview extends Component {
 
 	constructor() {
 		super();
-		this.state = {preview: {title:"", content:"", tags: [], author:""}};
+		this.state = {preview: {title:"", content:"", tags: []}};
 	}
 
 	componentDidMount() {
@@ -118,22 +115,23 @@ class TopicPreview extends Component {
 	render() {
 		const title = this.state.preview.title ? this.state.preview.title : "No title";
 		const content = this.state.preview.content ? this.state.preview.content : "No content...";
-		const author = this.state.preview.author ? this.state.preview.autfor : "Anonym";
+		const author = JSON.parse(localStorage.getItem("userdata"));
 		const tags = this.state.preview.tags.length > 0 ? this.state.preview.tags : ["Uncategorized"];
+
 		return(
-            <div className="posts">
+            <div className="posts custom-gray-box">
                 <h1 className="content-subhead">Topic Preview</h1>
 	            <section className="post">
 	                <header className="post-header">
 	                    <h2 className="post-title">{title}</h2>
 	                    <p className="post-meta">
-	                        By {author} under
+	                        By <a>{author.name}</a> under
 	                        {
 	                        	//Display tags
 	                            tags.map(function(tag){
-	                            	if (tag){
+	                            	if (tag.trim()){
 	                                	return (
-	                                    	<span key={tag} className="post-category">{tag}</span> )
+	                                    	<a key={tag} className="post-category">{tag}</a> )
 	                            	}
 	                            })
 	                        }
@@ -150,7 +148,17 @@ class TopicPreview extends Component {
 }
 
 //Generates topic form page
-export default class TopicBox extends Component {
+class TopicBox extends Component {
+
+	constructor(props){
+		super(props);
+	}
+	componentDidMount(){
+		//Substribe
+		PubSub.subscribe(NEW_TOPIC_CREATED, function(topic) {
+			this.props.history.push(`/forum`);
+		}.bind(this));
+	}
 
 	render() {
 		return (
@@ -169,3 +177,5 @@ export default class TopicBox extends Component {
 		);
 	}
 }
+
+export default withRouter(TopicBox);

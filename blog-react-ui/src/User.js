@@ -22,7 +22,7 @@ class UserForm extends Component {
 	    event.preventDefault();
 
 		$.ajax({
-			url:"http://localhost:8080/api/users",
+			url:`http://localhost:8080/api/users?u-auth-token=${localStorage.getItem("auth-token")}`,
 			type:"post",
 			contentType:"application/json",
 			dataType:"json",
@@ -124,7 +124,7 @@ export default class UserBox extends Component {
 	//Retrieve data via GET request and re-render page
 	loadUsers() {
 		$.ajax({
-			url:"http://localhost:8080/api/users",
+			url:`http://localhost:8080/api/users?u-auth-token=${localStorage.getItem("auth-token")}`,
 			dataType:"json",
 			success:function(response){
 				//Update list and re-render page

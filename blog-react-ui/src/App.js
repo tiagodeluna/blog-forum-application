@@ -3,9 +3,12 @@ import './css/pure.css';
 import './css/blog.css';
 import './css/side-menu.css';
 import './css/custom.css';
+import './css/font-awesome.min.css';
+import UserInfo from './components/UserInfo';
 import { Link } from 'react-router-dom';
 
 class App extends Component {
+
   render() {
     return (
     <div id="layout">
@@ -30,7 +33,7 @@ class App extends Component {
         </div>
 
         <div id="main">
-            <Link to="/login" className="pure-button pure-button-primary custom-button-right-aligned">Login</Link>
+            <UserInfo />
             {this.props.children}
         </div>            
 

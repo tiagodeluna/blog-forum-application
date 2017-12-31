@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -80,4 +81,25 @@ public class PostController {
         List<Post> posts = repository.findByTagsLabel(tag);
         return posts == null ? ResponseEntity.notFound().build() : ResponseEntity.ok(posts);
     }
+    
+    @GetMapping("/{id}")
+    public ResponseEntity<?> findById(@PathVariable String id) {
+    	LOGGER.info(String.format("Finding post by id: %s", id));
+        Post post = repository.findOne(id);
+        return post == null ? ResponseEntity.notFound().build() : ResponseEntity.ok(post);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> delete(@PathVariable String id) {
+    	LOGGER.info(String.format("Delete post by id: %s", id));
+    	Post post = repository.findOne(id);
+    	
+    	if (post == null) {
+    		return ResponseEntity.notFound().build();
+    	}
+    	
+        repository.delete(post);
+        return ResponseEntity.ok(post);
+    }
+
 }

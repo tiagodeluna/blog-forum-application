@@ -3,10 +3,13 @@ package com.lunablog.api;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
+
+import com.lunablog.api.infrastructure.repository.PostRepository;
 
 @SpringBootApplication
 public class MyApplication {
@@ -15,6 +18,7 @@ public class MyApplication {
 //    	ApplicationContext context = 
     	SpringApplication.run(MyApplication.class, args);
 //    	UserRepository repo = context.getBean(UserRepository.class);
+//    	PostRepository repo = context.getBean(PostRepository.class);
 //    	repo.deleteAll();
     	
         System.out.println("Running application...");
