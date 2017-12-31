@@ -6,13 +6,13 @@ export default class Home extends Component {
         return (
             <div>
                 <div className="header">
-                    <h1>About Us</h1>
+                    <h1>About</h1>
                 </div>
                 <br />
                 <br />
                 <div className="content" id="content">
                     <h1>Luna Forum</h1>
-                    <p>Luna Forum is a simples forum webapp developed by Tiago Luna as part of the Vanhack Accelerator 
+                    <p>Luna Forum is a simple forum webapp developed by Tiago Luna (me) as part of the Vanhack Accelerator 
                     Program. It was written using <strong>React.js</strong> + <strong>PureCSS</strong> in the Frontend, 
                     and <strong>Java 8</strong> + <strong>Spring (Boot, WebMVC, Security, Data)</strong> + 
                     <strong>MongoDB</strong> in the Backend. I hope you enjoy my solution!</p>
