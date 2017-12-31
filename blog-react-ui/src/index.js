@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
+import Home from './Home';
 import UserBox from './User';
 import TopicBox from './Topic';
 import Profile from './Profile';
@@ -26,7 +27,7 @@ ReactDOM.render(
     <Router>
       <App>
         <Switch>
-          <Route exact path="/" component={About} />
+          <Route exact path="/" component={Home} />
           <Route path="/login" component={Login} />
           <Route path="/logout" component={Logout} />
           <Route path="/forum" component={Forum} />
