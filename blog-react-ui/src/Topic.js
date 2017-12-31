@@ -82,9 +82,9 @@ class TopicForm extends Component {
 		return(
 			<form className="pure-form pure-form-stacked" onSubmit={this.sendForm} method="post">
 				<fieldset>
-					<CustomInput id="title" type="text" name="title" value={this.state.title} required=""
+					<CustomInput id="title" type="text" name="title" value={this.state.title} required="required"
 						onChange={this.setTitle} label="Title" />
-					<CustomTextArea name="content" value={this.state.content} required=""
+					<CustomTextArea name="content" value={this.state.content} required="required"
 						onChange={this.setContent} placeholder="Place the topic content here..." />
 					<CustomInput id="tags" type="text" name="tags" value={this.state.tags} required=""
 						onChange={this.setTags} label="Tags" />

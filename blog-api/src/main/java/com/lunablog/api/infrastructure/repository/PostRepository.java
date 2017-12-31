@@ -21,4 +21,10 @@ public interface PostRepository extends MongoRepository<Post, String> {
 	 * @return The list of Posts found
 	 */
 	public List<Post> findByTagsLabel(String label);
+	
+	/**
+	 * Recover all stored Posts, ordering by date of publication.
+	 * @return The list of all Posts
+	 */
+	public List<Post> findAllByOrderByPublicationDateDesc();
 }

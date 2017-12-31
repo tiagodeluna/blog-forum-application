@@ -64,7 +64,7 @@ public class PostController {
     @GetMapping
     public ResponseEntity<List<Post>> findAll() {
     	LOGGER.info("Finding all posts...");
-        List<Post> postList = repository.findAll();
+        List<Post> postList = repository.findAllByOrderByPublicationDateDesc();
         return ResponseEntity.ok(postList);
     }
 
