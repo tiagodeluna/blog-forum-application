@@ -18,7 +18,11 @@ export default class UserInfo extends Component {
 	//Shows just a login button
 	displayLoginButton() {
 		return (
-			<Link to="/login" className="pure-button pure-button-primary custom-button-right">Login</Link>
+			<div className="pure-u-5-5">
+				<Link to="/login" className="pure-button pure-button-primary custom-button-right">Login</Link>
+				<Link to="/signin" className="pure-button custom-button-right">
+					<i className="fa fa-user-plus fa-lg"></i> Sing In</Link>
+			</div>
 		);
 	}
 
@@ -29,7 +33,7 @@ export default class UserInfo extends Component {
 		return (
 			<div className="pure-u-5-5">
 				<Link to="/logout" className="pure-button pure-button-primary custom-button-right">Logout</Link>
-				<Link to="/users" className="pure-button custom-button-right">
+				<Link to="/profile" className="pure-button custom-button-right">
 					<i className="fa fa-cog fa-lg"></i> {userdata.name}</Link>
 			</div>
 		);

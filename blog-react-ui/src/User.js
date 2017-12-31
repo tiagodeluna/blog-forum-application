@@ -1,17 +1,18 @@
 import React, { Component } from 'react';
+import { withRouter } from "react-router-dom";
 import $ from 'jquery';
 import PubSub from 'pubsub-js';
 import CustomInput from './components/CustomInput';
 import CustomTextArea from './components/CustomTextArea';
 import ErrorHandler from './ErrorHandler';
 
-var SHOW_FORM_STATUS = "user-account-created";
+var USER_ACCOUNT_CREATED = "user-account-created";
 
 class UserForm extends Component {
 
 	constructor() {
 		super();
-		this.state = {editing: false, name:"", username: "", email:"", password:"", description: ""};
+		this.state = {name:"", username: "", email:"", password:"", description: ""};
 		//Make 'this' in each function refer to 'this' from UserForm
 		this.sendForm = this.sendForm.bind(this);
 		this.setName = this.setName.bind(this);
@@ -25,16 +26,15 @@ class UserForm extends Component {
 	    event.preventDefault();
 
 		$.ajax({
-			url:`http://localhost:8080/api/users?u-auth-token=${localStorage.getItem("auth-token")}`,
+			url:"http://localhost:8080/api/users",
 			type:"post",
 			contentType:"application/json",
 			dataType:"json",
 			data:JSON.stringify({name:this.state.name, email:this.state.email, username:this.state.username,
 				password:this.state.password, profileDescription: this.state.description}),
 			success: function(response){
-				PubSub.publish(SHOW_FORM_STATUS, {});
+				PubSub.publish(USER_ACCOUNT_CREATED, {});
 				//Change form state
-				this.setState({editing: true});
 				//this.setState({name:"", username: "", email:"", password:"", description: ""});
 			}.bind(this),
 			error: function(response){
@@ -70,8 +70,6 @@ class UserForm extends Component {
 	}
 
 	render() {
-		const buttonStyle = "pure-button " + (this.state.editing ? "custom-button-success" : "pure-button-primary");
-
 		return(
 			<form className="pure-form pure-form-stacked" onSubmit={this.sendForm} method="post">
 				<fieldset>
@@ -87,7 +85,7 @@ class UserForm extends Component {
 					<CustomInput id="password" type="password" value={this.state.password} required="required"
 						onChange={this.setPassword} label="Password" />
 
-					<button type="submit" className={buttonStyle}>Save</button>
+					<button type="submit" className="pure-button pure-button-primary">Save</button>
 				</fieldset>
 			</form>
 		);
@@ -95,33 +93,19 @@ class UserForm extends Component {
 }
 
 //Generates admin User page
-export default class UserBox extends Component {
+class UserBox extends Component {
 
 	constructor() {
 		super();
 		this.state = {msg: ""};
-		this.loadUsers = this.loadUsers.bind(this);
 	}
 
 	componentDidMount() {
-		//this.loadUsers();
-
-		//Subscribes to reload the list when it changes
-		PubSub.subscribe(SHOW_FORM_STATUS, function(topic) {
-			this.setState({msg: "Your account was successfully created!"});
+		//Subscribes to redirect when it changes
+		PubSub.subscribe(USER_ACCOUNT_CREATED, function(topic) {
+			//Redirects to user's page
+			this.props.history.push("/login");
 		}.bind(this));
-	}
-
-	//Retrieve data via GET request and re-render page
-	loadUsers() {
-		$.ajax({
-			url:`http://localhost:8080/api/users?u-auth-token=${localStorage.getItem("auth-token")}`,
-			dataType:"json",
-			success:function(response){
-				//Update list and re-render page
-				this.setState({list:response});
-			}.bind(this)
-		});
 	}
 
 	render() {
@@ -129,7 +113,7 @@ export default class UserBox extends Component {
 	        <div>
 	            <div className="header">
 	                <h1>Create Your Account</h1>
-	                <h2>Spend just a few minutes to create your user account and start using the wonderful Luna Forum!</h2>
+	                <h2>Hey! Spend just a few minutes to create your user account and start using the wonderful Luna Forum!</h2>
 	            </div>
 	            <br />
 	            <div className="content" id="content">
@@ -139,3 +123,5 @@ export default class UserBox extends Component {
 		);
 	}
 }
+
+export default withRouter(UserBox);

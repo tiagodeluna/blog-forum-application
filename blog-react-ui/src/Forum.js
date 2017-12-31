@@ -121,8 +121,6 @@ export default function Forum() {
             <div className="header">
                 <h1>Forum</h1>
             </div>
-            <br />
-            <br />
             <div className="content" id="content">
                 <Switch>
                     <Route exact path="/forum" component={ListAllPosts} />

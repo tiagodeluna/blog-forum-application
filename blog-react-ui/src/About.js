@@ -11,9 +11,10 @@ export default class Home extends Component {
                 <br />
                 <br />
                 <div className="content" id="content">
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, 
-                    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum 
-                    dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                    <p>Hi, my name is Tiago Luna. I'm a software engineer with over nine years of programming experience. 
+                    I developed this application as part of the Vanhack Accelerator Program. I used React v4 + PureCSS in 
+                    the Frontend and Java 8 + Spring (Boot, WebMVC, Security, Data) + MongoDB in the Backend. I hope you 
+                    enjooy my solution!</p>
                 </div>
             </div>
         );

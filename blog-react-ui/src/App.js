@@ -18,13 +18,12 @@ class App extends Component {
 
         <div id="menu">
             <div className="pure-menu">
-                <a className="pure-menu-heading" href="#">Luna Forum</a>
+                <Link to="/forum" className="pure-menu-heading">Luna Forum</Link>
 
                 <ul className="pure-menu-list">
                     <li className="pure-menu-item"><Link to="/" className="pure-menu-link">Home</Link></li>
                     <li className="pure-menu-item"><Link to="/forum" className="pure-menu-link">Topics</Link></li>
                     <li className="pure-menu-item"><Link to="/topic/new" className="pure-menu-link">New Topic</Link></li>
-                    <li className="pure-menu-item"><Link to="/users" className="pure-menu-link">Profile</Link></li>
                     <li className="pure-menu-item"><Link to="/about" className="pure-menu-link">About</Link></li>
                 </ul>
             </div>

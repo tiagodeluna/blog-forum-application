@@ -6,7 +6,7 @@ class Login extends Component {
 
 	constructor(props){
 		super(props);
-		this.state = {msg: ""};
+		this.state = {msgError: ""};
 		this.sendForm = this.sendForm.bind(this);
 	}
 
@@ -50,10 +50,10 @@ class Login extends Component {
 			//Retrieve and store userdata
 			this.retrieveUserData(token);
 			//Redirects to user's page
-			this.props.history.push("/users");
+			this.props.history.push("/forum");
 		})
 		.catch(error => {
-			this.setState({msg: error.message});
+			this.setState({msgError: error.message});
 		})
 	}
 
@@ -67,7 +67,8 @@ class Login extends Component {
 	            <div className="content" id="content">
 					<form className="pure-form pure-form-aligned" onSubmit={this.sendForm} method="post">
 						<fieldset>
-							<span className="custom-error">{this.state.msg}</span>
+							<span className="custom-error">{this.state.msgError}</span>
+							<span className="custom-success">{this.state.msgInfo}</span>
 
 							<div className="pure-control-group">
 								<label htmlFor="username">Username</label>
