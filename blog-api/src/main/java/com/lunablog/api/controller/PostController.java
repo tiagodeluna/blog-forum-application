@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.lunablog.api.domain.Comment;
 import com.lunablog.api.domain.Post;
 import com.lunablog.api.infrastructure.repository.PostRepository;
 
@@ -100,6 +101,20 @@ public class PostController {
     	
         repository.delete(post);
         return ResponseEntity.ok(post);
+    }
+
+    @PostMapping("/{id}/comments/")
+    public ResponseEntity<?> addComment(@PathVariable String id, @Valid @RequestBody Comment comment) {
+    	LOGGER.info("Creating a new comment...");
+        Post post = repository.findOne(id);
+        
+        if (post == null) {
+        	return ResponseEntity.notFound().build();
+        }
+        
+        post.getComments().add(comment);
+        
+        return ResponseEntity.status(HttpStatus.CREATED).body(repository.save(post));
     }
 
 }

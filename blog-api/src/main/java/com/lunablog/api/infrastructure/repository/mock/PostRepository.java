@@ -8,9 +8,9 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.lunablog.api.domain.Category;
 import com.lunablog.api.domain.Post;
 import com.lunablog.api.domain.Tag;
+import com.lunablog.api.domain.blog.Category;
 
 @Component
 public class PostRepository {

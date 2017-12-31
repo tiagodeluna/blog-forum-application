@@ -1,4 +1,6 @@
-package com.lunablog.api.domain;
+package com.lunablog.api.domain.blog;
+
+import com.lunablog.api.domain.Tag;
 
 import lombok.Getter;
 import lombok.Setter;

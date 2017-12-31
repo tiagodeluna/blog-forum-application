@@ -1,10 +1,13 @@
-package com.lunablog.api.domain;
+package com.lunablog.api.domain.blog;
 
 import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
+
+import com.lunablog.api.domain.Post;
+import com.lunablog.api.domain.User;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;

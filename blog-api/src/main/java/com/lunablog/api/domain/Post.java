@@ -12,13 +12,15 @@ import org.springframework.data.mongodb.core.index.IndexDirection;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 
+import com.lunablog.api.domain.blog.Category;
+
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-@EqualsAndHashCode(of={"id", "customUrl"})
+@EqualsAndHashCode(of={"id"})
 public class Post {
 
 	@Id
@@ -27,7 +29,7 @@ public class Post {
 	private User author;
 	@NotEmpty
 	private String title;
-	private String customUrl;
+//	private String customUrl;
 	@NotEmpty
 	private String content;
 	@Indexed(direction=IndexDirection.DESCENDING)

@@ -1,4 +1,4 @@
-package com.lunablog.api.domain;
+package com.lunablog.api.domain.blog;
 
 import java.util.List;
 
