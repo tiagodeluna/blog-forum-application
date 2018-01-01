@@ -1,6 +1,6 @@
 # Forum Application
 
-This is a simple forum webapp developed as part of the Vanhack Accelerator Program. It was written using:
+This is a simple forum webapp developed as part of the Vanhack Tech Challenge. It was written using:
 * Frontend:
     * React.js
     * PureCSS
@@ -8,9 +8,9 @@ This is a simple forum webapp developed as part of the Vanhack Accelerator Progr
     * Java 8
     * Spring: Boot, WebMVC, Security, Data
     * JWT
-    * MongoDB running in the cloud with MongoDB Atlas
+    * MongoDB running on the cloud via MongoDB Atlas
 
-**Please check out the kanban board for this project [HERE](https://drive.google.com/file/d/1FNEiN0nhfoPI-5EfBTihCMshXnJ6ojBm/view?usp=sharing)**
+**Please check out the kanban board for this project [HERE](https://drive.google.com/file/d/1FNEiN0nhfoPI-5EfBTihCMshXnJ6ojBm/view?usp=sharing)**.
 
 ## Next steps
 
@@ -23,7 +23,7 @@ In order to run the demo you need the following thinks:
 - [Node.js and NPM](https://nodejs.org/en/)
 
 ## How to run the application
-In order to run and play the webapp you need to:
+In order to run the webapp you need to:
 1. Clone (or download) the project from GitHub
 2. Run the backend API:
     - In Command Prompt, natigate to `blog-api/dist` folder
