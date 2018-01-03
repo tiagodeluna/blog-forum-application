@@ -33,7 +33,7 @@ ReactDOM.render(
           <Route path="/forum" component={Forum} />
           <Route path="/about" component={About} />
           <Route path="/topic" render={() => checkAuthentication( <TopicBox /> )}/>
-          <Route path="/signin" component={UserBox} />
+          <Route path="/signup" component={UserBox} />
           <Route path="/profile" component={Profile} />
         </Switch>
       </App>
