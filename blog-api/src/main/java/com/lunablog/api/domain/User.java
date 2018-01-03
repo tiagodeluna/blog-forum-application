@@ -42,7 +42,7 @@ public class User implements UserDetails {
 	private Date registrationDate = new Date();
 	private Date lastLoginDate;
 	private String profileDescription;
-//	private Date dateOfBirth;
+	private Role role = Role.AUTHOR; 
 	
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {

@@ -34,9 +34,7 @@ class UserForm extends Component {
 				password:this.state.password, profileDescription: this.state.description}),
 			success: function(response){
 				PubSub.publish(USER_ACCOUNT_CREATED, {});
-				//Change form state
-				//this.setState({name:"", username: "", email:"", password:"", description: ""});
-			}.bind(this),
+			},
 			error: function(response){
 				//Handle validation errors
 				if (response.status === 400) {

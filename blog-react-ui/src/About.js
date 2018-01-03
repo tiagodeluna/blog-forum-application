@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 
 export default class Home extends Component {
     render() {
@@ -22,8 +21,8 @@ export default class Home extends Component {
                     I'm very comfortable coding with Java, C#, HTML5, Javascript, and also have expertise with SQL and 
                     multiple relational databases. I enjoy working in agile teams and organizations that stimulate 
                     productivity and value good design and coding practices. Please check out 
-                    my <a href="https://github.com/tiagodeluna" target="_blank">Github</a> and 
-                    my <a href="http://tiagodeluna.github.io" target="_blank">personal site</a> for more info.</p>
+                    my <a href="https://github.com/tiagodeluna" target="_blank" rel="noopener noreferrer">Github</a> and 
+                    my <a href="http://tiagodeluna.github.io" target="_blank" rel="noopener noreferrer">personal site</a> for more info.</p>
                 </div>
             </div>
         );
