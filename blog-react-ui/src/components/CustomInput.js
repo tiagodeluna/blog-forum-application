@@ -26,8 +26,7 @@ export default class CustomInput extends Component {
 		return (
 				<div className="pure-control-group">
 					<label htmlFor={this.props.id}>{this.props.label}</label>
-					<input id={this.props.id} type={this.props.type} value={this.props.value} 
-                        required={this.props.required} onChange={this.props.onChange} className="pure-input-1" />
+					<input {...this.props} className="pure-input-1" />
                     <span className="pure-form-message custom-error">{this.state.errorMsg}</span>
 				</div>	
 			);

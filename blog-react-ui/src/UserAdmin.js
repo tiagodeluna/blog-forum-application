@@ -6,6 +6,10 @@ import ErrorHandler from './ErrorHandler';
 
 var UPDATE_USER_LIST = "update-user-list";
 
+function formatRole(role){
+	return role.charAt(0) + role.slice(1).toLowerCase();
+}
+
 class UserAdminForm extends Component {
 
 	constructor() {
@@ -13,8 +17,6 @@ class UserAdminForm extends Component {
 		this.state = {name:"", email:"", role:""};
 		//Make 'this' in each function refer to 'this' from UserAdminForm
 		this.sendForm = this.sendForm.bind(this);
-		this.setName = this.setName.bind(this);
-		this.setEmail = this.setEmail.bind(this);
 		this.setRole = this.setRole.bind(this);
 	}
 
@@ -45,14 +47,6 @@ class UserAdminForm extends Component {
 		});
 	}
 
-	setName(event) {
-		this.setState({name: event.target.value});
-	}
-
-	setEmail(event) {
-		this.setState({email: event.target.value});
-	}
-
 	setRole(event) {
 		this.setState({role: event.target.value});
 	}
@@ -61,15 +55,15 @@ class UserAdminForm extends Component {
 		return(
 			<form className="pure-form pure-form-stacked" onSubmit={this.sendForm} method="post">
 				<fieldset>
-					<CustomInput id="name" type="text" value={this.state.name} required="required" onChange={this.setName} label="Name" />
-					<CustomInput id="email" type="email" value={this.state.email} required="required" onChange={this.setEmail} label="Email" />
+					<CustomInput id="name" type="text" value={this.state.name} required="required" label="Name" />
+					<CustomInput id="email" type="email" value={this.state.email} required="required" label="Email" />
 					<div className="pure-control-group">
 						<label htmlFor="role">Role</label>
 						<select id="role" value={this.state.role} onChange={this.setRole}>
 							<option value="">Select a role</option>
 						{
 							this.props.roles.map(function(role){
-								return <option value={role}>{role.charAt(0) + role.slice(1).toLowerCase()}</option>
+								return <option value={role}>{formatRole(role)}</option>
 							})
 						}
 						</select>
@@ -103,7 +97,7 @@ class UsersTable extends Component {
 								<tr key={user.id}>
 									<td>{user.name}</td>
 									<td>{user.email}</td>
-									<td>{user.role}</td>
+									<td>{formatRole(user.role)}</td>
 								</tr>
 							)
 						})

@@ -6,7 +6,6 @@ import CustomInput from './components/CustomInput';
 import CustomTextArea from './components/CustomTextArea';
 import ErrorHandler from './ErrorHandler';
 
-var UPDATE_TOPIC_LIST = "update-topic-list";
 var NEW_TOPIC_CREATED = "new-topic-created";
 
 //Generates new topic form
@@ -14,12 +13,7 @@ class TopicForm extends Component {
 
 	constructor() {
 		super();
-		this.state = {title:"", content:"", tags: []};
-		//Make 'this' in each function refer to 'this' from UserForm
-		this.sendForm = this.sendForm.bind(this);
-		this.setTitle = this.setTitle.bind(this);
-		this.setContent = this.setContent.bind(this);
-		this.setTags = this.setTags.bind(this);
+		this.state = {title:"", content:"", tags: ""};
 	}
 
   	sendForm(event) {
@@ -50,43 +44,28 @@ class TopicForm extends Component {
 		});
 	}
 
-	publishPostPreview() {
-		PubSub.publish(UPDATE_TOPIC_LIST, this.state);
-	}
-
-	setTitle(event) {
-		this.setState({title: event.target.value}, function() {
-			this.publishPostPreview();
-		});
-	}
-
-	setContent(event) {
-		this.setState({content: event.target.value}, function() {
-			this.publishPostPreview();
-		});
-	}
-
-	setTags(event) {
-		this.setState({tags: event.target.value.split(",")}, function() {
-			this.publishPostPreview();
-		});
+	saveChange(inputName, event){
+		this.setState({[inputName]:event.target.value});
 	}
 
 	render() {
 		return(
-			<form className="pure-form pure-form-stacked" onSubmit={this.sendForm} method="post">
-				<fieldset>
-					<CustomInput id="title" type="text" name="title" value={this.state.title} required="required"
-						onChange={this.setTitle} label="Title" />
-					<CustomTextArea name="content" value={this.state.content} required="required"
-						onChange={this.setContent} placeholder="Place the topic content here..." />
-					<CustomInput id="tags" type="text" name="tags" value={this.state.tags} required=""
-						onChange={this.setTags} label="Tags" />
-					<div className="pure-control-group">
-						<button type="submit" className="pure-button pure-button-primary">Create</button>
-					</div>
-				</fieldset>
-			</form>
+			<div>
+				<form className="pure-form pure-form-stacked" onSubmit={this.sendForm} method="post">
+					<fieldset>
+						<CustomInput id="title" type="text" name="title" value={this.state.title} required="required"
+							onChange={this.saveChange.bind(this,"title")} label="Title" />
+						<CustomTextArea name="content" value={this.state.content} required="required"
+							onChange={this.saveChange.bind(this,"content")} placeholder="Place the topic content here..." />
+						<CustomInput id="tags" type="text" name="tags" value={this.state.tags} required=""
+							onChange={this.saveChange.bind(this,"tags")} label="Tags" />
+						<div className="pure-control-group">
+							<button type="submit" className="pure-button pure-button-primary">Create</button>
+						</div>
+					</fieldset>
+				</form>
+				<TopicPreview data={this.state} />
+			</div>
 		);
 	}
 }
@@ -96,21 +75,13 @@ class TopicPreview extends Component {
 
 	constructor() {
 		super();
-		this.state = {preview: {title:"", content:"", tags: []}};
-	}
-
-	componentDidMount() {
-		//Subscribes to reload the list when it changes
-		PubSub.subscribe(UPDATE_TOPIC_LIST, function(topic, data) {
-			this.setState({preview: data});
-		}.bind(this));
 	}
 
 	render() {
-		const title = this.state.preview.title ? this.state.preview.title : "No title";
-		const content = this.state.preview.content ? this.state.preview.content : "No content...";
+		const title = this.props.data.title ? this.props.data.title : "No title";
+		const content = this.props.data.content ? this.props.data.content : "No content...";
 		const author = JSON.parse(localStorage.getItem("userdata"));
-		const tags = this.state.preview.tags.length > 0 ? this.state.preview.tags : ["Uncategorized"];
+		const tags = this.props.data.tags.trim().length > 0 ? this.props.data.tags.split(",") : ["Uncategorized"];
 
 		return(
             <div className="posts custom-gray-box">
@@ -122,11 +93,13 @@ class TopicPreview extends Component {
 	                        By <a>{author.name}</a> under
 	                        {
 	                        	//Display tags
-	                            tags.map(function(tag){
+	                            tags.map(function(tag, index){
+
 	                            	if (tag.trim()){
 	                                	return (
-	                                    	<a key={tag} className="post-category">{tag}</a> )
+	                                    	<a key={index} className="post-category">{tag}</a> )
 	                            	}
+	                            	return "";
 	                            })
 	                        }
 	                    </p>
@@ -162,7 +135,6 @@ class TopicBox extends Component {
 	            <br />
 	            <div className="content" id="content">
 					<TopicForm />
-					<TopicPreview />
 	            </div>
 	        </div>
 		);
