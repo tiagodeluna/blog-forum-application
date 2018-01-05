@@ -60,10 +60,9 @@ class UserAdminForm extends Component {
 					<div className="pure-control-group">
 						<label htmlFor="role">Role</label>
 						<select id="role" value={this.state.role} onChange={this.setRole}>
-							<option value="">Select a role</option>
 						{
 							this.props.roles.map(function(role){
-								return <option value={role}>{formatRole(role)}</option>
+								return <option key={role} value={role}>{formatRole(role)}</option>
 							})
 						}
 						</select>
@@ -119,6 +118,7 @@ export default class UserAdminBox extends Component {
 	}
 
 	componentDidMount() {
+		this.loadRoles();
 		this.loadUsers();
 
 		//Subscribes to reload the list when it changes
@@ -131,10 +131,21 @@ export default class UserAdminBox extends Component {
 	loadUsers() {
 		$.ajax({
 			url:`http://localhost:8080/api/users?u-auth-token=${localStorage.getItem("auth-token")}`,
-			dataType:"json",
+			type:"get",
 			success:function(response){
-				//Update list and re-render page
+				//Update list of users and re-render page
 				this.setState({list:response});
+			}.bind(this)
+		});
+	}
+
+	loadRoles() {
+		$.ajax({
+			url:`http://localhost:8080/api/users/roles?u-auth-token=${localStorage.getItem("auth-token")}`,
+			type:"get",
+			success: function(response){
+				//Update list of roles and re-render page
+				this.setState({roles:response});
 			}.bind(this)
 		});
 	}

@@ -73,10 +73,6 @@ class TopicForm extends Component {
 //Generates a preview of the topic
 class TopicPreview extends Component {
 
-	constructor() {
-		super();
-	}
-
 	render() {
 		const title = this.props.data.title ? this.props.data.title : "No title";
 		const content = this.props.data.content ? this.props.data.content : "No content...";
