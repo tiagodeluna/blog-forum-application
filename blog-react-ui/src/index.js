@@ -10,7 +10,6 @@ import About from './About';
 import Login from './components/Login';
 import Logout from './components/Logout';
 import UserAdminBox from './UserAdmin';
-import './index.css';
 import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 import registerServiceWorker from './registerServiceWorker';
 
