@@ -9,7 +9,7 @@ import Forum from './Forum';
 import About from './About';
 import Login from './components/Login';
 import Logout from './components/Logout';
-import './index.css';
+import UserAdminBox from './UserAdmin';
 import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 import registerServiceWorker from './registerServiceWorker';
 
@@ -33,8 +33,9 @@ ReactDOM.render(
           <Route path="/forum" component={Forum} />
           <Route path="/about" component={About} />
           <Route path="/topic" render={() => checkAuthentication( <TopicBox /> )}/>
-          <Route path="/signin" component={UserBox} />
+          <Route path="/signup" component={UserBox} />
           <Route path="/profile" component={Profile} />
+          <Route path="/admin" component={UserAdminBox} />
         </Switch>
       </App>
     </Router>

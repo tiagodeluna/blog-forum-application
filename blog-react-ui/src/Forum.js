@@ -23,7 +23,7 @@ function PostList(props) {
                                 <header className="post-header">
                                     <h2 className="post-title">{post.title}</h2>
                                     <p className="post-meta">
-                                        By <a href="#" className="post-author">{post.author.name}</a> under
+                                        By <a className="post-author">{post.author.name}</a> under
                                     {
                                         post.tags.map(function(tag){
                                             return (

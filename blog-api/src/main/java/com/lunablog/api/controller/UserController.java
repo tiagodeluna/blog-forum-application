@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.lunablog.api.domain.Role;
 import com.lunablog.api.domain.User;
 import com.lunablog.api.infrastructure.repository.UserRepository;
 
@@ -72,6 +73,12 @@ public class UserController {
     	LOGGER.info(String.format("Finding user by id: %s", id));
         User user = repository.findOne(id);
         return user == null ? ResponseEntity.notFound().build() : ResponseEntity.ok(user);
+    }
+
+    @GetMapping("/roles")
+    public ResponseEntity<Role[]> getRoles() {
+    	LOGGER.info("Finding user roles...");
+        return ResponseEntity.ok(Role.values());
     }
 
     @DeleteMapping("/{id}")

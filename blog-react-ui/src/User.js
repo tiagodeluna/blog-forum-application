@@ -15,11 +15,6 @@ class UserForm extends Component {
 		this.state = {name:"", username: "", email:"", password:"", description: ""};
 		//Make 'this' in each function refer to 'this' from UserForm
 		this.sendForm = this.sendForm.bind(this);
-		this.setName = this.setName.bind(this);
-		this.setUsername = this.setUsername.bind(this);
-		this.setEmail = this.setEmail.bind(this);
-		this.setDescription = this.setDescription.bind(this);
-		this.setPassword = this.setPassword.bind(this);
 	}
 
   	sendForm(event) {
@@ -34,9 +29,7 @@ class UserForm extends Component {
 				password:this.state.password, profileDescription: this.state.description}),
 			success: function(response){
 				PubSub.publish(USER_ACCOUNT_CREATED, {});
-				//Change form state
-				//this.setState({name:"", username: "", email:"", password:"", description: ""});
-			}.bind(this),
+			},
 			error: function(response){
 				//Handle validation errors
 				if (response.status === 400) {
@@ -49,24 +42,8 @@ class UserForm extends Component {
 		});
 	}
 
-	setName(event) {
-		this.setState({name: event.target.value});
-	}
-
-	setUsername(event) {
-		this.setState({username: event.target.value});
-	}
-
-	setEmail(event) {
-		this.setState({email: event.target.value});
-	}
-
-	setDescription(event) {
-		this.setState({description: event.target.value});
-	}
-
-	setPassword(event) {
-		this.setState({password: event.target.value});
+	saveChange(inputName, event){
+		this.setState({[inputName]:event.target.value});
 	}
 
 	render() {
@@ -75,15 +52,15 @@ class UserForm extends Component {
 				<fieldset>
 					<span className="custom-success">{this.state.msg}</span>
 					<CustomInput id="name" type="text" value={this.state.name} required="required"
-						onChange={this.setName} label="Full Name" />
+						onChange={this.saveChange.bind(this,'name')} label="Full Name" />
 					<CustomInput id="username" type="text" value={this.state.username} required="required"
-						onChange={this.setUsername} label="Username" />
+						onChange={this.saveChange.bind(this,'username')} label="Username" />
 					<CustomInput id="email" type="email" value={this.state.email} required="required"
-						onChange={this.setEmail} label="Email" />
+						onChange={this.saveChange.bind(this,'email')} label="Email" />
 					<CustomTextArea name="description" value={this.state.description} required=""
-						onChange={this.setDescription} placeholder="Say something cool about you!" />
+						onChange={this.saveChange.bind(this,'description')} placeholder="Say something cool about you!" />
 					<CustomInput id="password" type="password" value={this.state.password} required="required"
-						onChange={this.setPassword} label="Password" />
+						onChange={this.saveChange.bind(this,'password')} label="Password" />
 
 					<button type="submit" className="pure-button pure-button-primary">Save</button>
 				</fieldset>

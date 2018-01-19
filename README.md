@@ -18,7 +18,7 @@ The next step is to evolve the application into a platform where users can creat
 
 ## Prerequisites
 
-In order to run the demo you need the following thinks:
+In order to run the demo you'll need to install the following resources:
 - [Java SDK 8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
 - [Node.js and NPM](https://nodejs.org/en/)
 
