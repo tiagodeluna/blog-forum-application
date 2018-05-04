@@ -22,7 +22,7 @@ class FotoInfo extends Component {
             <div className="foto-info-likes">
               {
                 this.props.foto.likers.map(liker => {
-                  return (<a href="#">{ liker.login },</a>)
+                  return (<a key={liker.login} href="#">{ liker.login },</a>)
                 })
               }
               curtiram
@@ -37,7 +37,7 @@ class FotoInfo extends Component {
               {
                 this.props.foto.comentarios.map(comentario => {
                   return (
-                    <li className="comentario">
+                    <li key={comentario.id} className="comentario">
                       <a className="foto-info-autor">{comentario.login}</a>
                       {comentario.texto}
                     </li>

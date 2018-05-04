@@ -5,11 +5,11 @@ import "./css/timeline.css";
 import "./css/login.css";
 import App from "./App";
 import Login from "./componentes/Login";
-import { BrowserRouter as Router, Route, Switch/*, Redirect*/ } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 /*
-	To start the backend application, execute:
-		java -jar -Dspring.datasource.password=123456 instalura.jar
+To start the backend application, execute:
+ java -jar -Dspring.datasource.password=YOUR_PASSWORD instalura.jar
 */
 
 ReactDOM.render((
