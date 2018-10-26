@@ -1,24 +1,44 @@
-class TradeController {
+import { Trade, TradeList } from "../models/index";
+import { MessageView, TradesView } from "../views/index";
 
-    private _inputDate: HTMLInputElement;
-    private _inputAmount: HTMLInputElement;
-    private _inputValue: HTMLInputElement;
+enum DaysOfWeek {SUNDAY, MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY};
+
+export default class TradeController {
+
+    private _inputDate: JQuery;
+    private _inputAmount: JQuery;
+    private _inputValue: JQuery;
+    private _tradeList = new TradeList();
+    private _tradesView = new TradesView("#tradesView");
+    private _messageView = new MessageView("#messageView");
 
     constructor() {
-        this._inputDate = <HTMLInputElement> document.querySelector("#date");
-        this._inputAmount = <HTMLInputElement> document.querySelector("#amount");
-        this._inputValue = <HTMLInputElement> document.querySelector("#value");
+        this._inputDate = $("#date");
+        this._inputAmount = $("#amount");
+        this._inputValue = $("#value");
+        this._tradesView.update(this._tradeList);
     }
 
-    add(event: Event) {
+    add(event: Event) : void {
         event.preventDefault();
         
+        let date = new Date(this._inputDate.val().replace(/-/g, ","));
+
+        if (date.getDay() == DaysOfWeek.SUNDAY || date.getDay() == DaysOfWeek.SATURDAY) {
+            this._messageView.update("The stock market is closed on the weekends.");
+            return;
+        }
+
         const trade = new Trade(
-            new Date(this._inputDate.value.replace(/-/g, ",")),
-            parseInt(this._inputAmount.value),
-            parseFloat(this._inputValue.value)
+            date,
+            parseInt(this._inputAmount.val()),
+            parseFloat(this._inputValue.val())
+
         );
 
-        console.log(trade);
+        this._tradeList.add(trade);
+        
+        this._tradesView.update(this._tradeList);
+        this._messageView.update("Trade added successfully!");
     }
 }

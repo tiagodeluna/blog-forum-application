@@ -1,5 +1,5 @@
+import TradeController from "./controllers/TradeController";
+
 const tradeController = new TradeController();
 
-document
-    .querySelector(".form")
-    .addEventListener("submit", tradeController.add.bind(tradeController))
+$(".form").submit(tradeController.add.bind(tradeController))
