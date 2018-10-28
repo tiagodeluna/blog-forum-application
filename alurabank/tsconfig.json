@@ -6,7 +6,8 @@
         "noImplicitAny": true, //The compiler doesn't adopt the type any in variables without types explicitly defined.
         "removeComments": true, //Remove comments when generating the .js files
         "module": "system", //Define system.js as the module loader (to load all JS files, avoiding the need to explicitly reference all of them in the index.html file)
-        "strictNullChecks": true //The compiler doesn't accept null and undefined values in variables of other types
+        "strictNullChecks": true, //The compiler doesn't accept null and undefined values in variables of other types
+        "experimentalDecorators": true //Enable use of typescript's experimental decorators (using '@')
     },
     "include": [
         "app/ts/**/*"

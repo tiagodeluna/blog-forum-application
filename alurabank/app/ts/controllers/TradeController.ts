@@ -1,21 +1,22 @@
 import { Trade, TradeList } from "../models/index";
 import { MessageView, TradesView } from "../views/index";
+import { domInject } from "../helpers/decorators/index";
 
 enum DaysOfWeek {SUNDAY, MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY};
 
 export default class TradeController {
 
+    @domInject("#date")
     private _inputDate: JQuery;
+    @domInject("#amount")
     private _inputAmount: JQuery;
+    @domInject("#value")
     private _inputValue: JQuery;
     private _tradeList = new TradeList();
     private _tradesView = new TradesView("#tradesView");
     private _messageView = new MessageView("#messageView");
 
     constructor() {
-        this._inputDate = $("#date");
-        this._inputAmount = $("#amount");
-        this._inputValue = $("#value");
         this._tradesView.update(this._tradeList);
     }
 

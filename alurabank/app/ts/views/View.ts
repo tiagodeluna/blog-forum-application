@@ -1,3 +1,5 @@
+import { logExecutionTime } from "../helpers/decorators/index";
+
 export abstract class View<T> {
 
     private _element : JQuery;
@@ -9,6 +11,7 @@ export abstract class View<T> {
         this._escape = escape;
     }
 
+    @logExecutionTime(true)
     update(model: T) : void {
         let template = this.template(model);
         if (this._escape) {
