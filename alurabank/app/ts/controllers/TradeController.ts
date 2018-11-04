@@ -2,6 +2,7 @@ import { Trade, TradeList, PartialTrade } from "../models/index";
 import { MessageView, TradesView } from "../views/index";
 import { domInject, throttle } from "../helpers/decorators/index";
 import { TradeService, HandlerFunction } from "../services/index";
+import { print } from "../helpers/index";
 
 enum DaysOfWeek {SUNDAY, MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY};
 let timer = 0;
@@ -38,11 +39,11 @@ export default class TradeController {
             date,
             parseInt(this._inputAmount.val()),
             parseFloat(this._inputValue.val())
-
         );
-
         this._tradeList.add(trade);
-        
+
+        print(trade, this._tradeList, date);
+
         this._tradesView.update(this._tradeList);
         this._messageView.update("Trade added successfully!");
     }
