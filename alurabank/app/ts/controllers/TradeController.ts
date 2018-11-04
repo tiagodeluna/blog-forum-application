@@ -1,8 +1,10 @@
-import { Trade, TradeList } from "../models/index";
+import { Trade, TradeList, PartialTrade } from "../models/index";
 import { MessageView, TradesView } from "../views/index";
-import { domInject } from "../helpers/decorators/index";
+import { domInject, throttle } from "../helpers/decorators/index";
+import { TradeService, HandlerFunction } from "../services/index";
 
 enum DaysOfWeek {SUNDAY, MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY};
+let timer = 0;
 
 export default class TradeController {
 
@@ -15,13 +17,15 @@ export default class TradeController {
     private _tradeList = new TradeList();
     private _tradesView = new TradesView("#tradesView");
     private _messageView = new MessageView("#messageView");
+    private _tradeService = new TradeService();
 
     constructor() {
         this._tradesView.update(this._tradeList);
     }
 
-    add(event: Event) : void {
-        event.preventDefault();
+    @throttle()
+    add() : void {
+        //NOTE: The event.preventDefault() call is being executed by throttle
         
         let date = new Date(this._inputDate.val().replace(/-/g, ","));
 
@@ -41,5 +45,24 @@ export default class TradeController {
         
         this._tradesView.update(this._tradeList);
         this._messageView.update("Trade added successfully!");
+    }
+
+    @throttle()
+    importData(event: Event) : void {
+        const isOk : HandlerFunction = res => {
+            if (res.ok) {
+                return res;
+            } else {
+                throw new Error(res.statusText);
+            }
+        }
+
+        //Get data from trade service
+        this._tradeService.getTrades(isOk)
+            .then((trades : Trade[]) => {
+                trades.forEach(trade => this._tradeList.add(trade));
+                this._tradesView.update(this._tradeList);
+            });
+
     }
 }
