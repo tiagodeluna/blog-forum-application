@@ -48,8 +48,11 @@ export default class TradeController {
         this._messageView.update("Trade added successfully!");
     }
 
+    //Imports trades from an external service. This method uses the async/await feature of Javascript ES8,
+    // supported by Typescript.
     @throttle()
-    importData(event: Event) : void {
+    async importData(event: Event) {
+        //Function passed to the service call to handle the response
         const isOk : HandlerFunction = res => {
             if (res.ok) {
                 return res;
@@ -58,23 +61,26 @@ export default class TradeController {
             }
         }
 
-        //Get data from trade service
-        this._tradeService.getTrades(isOk)
-            .then((trades : Trade[]) => {
-                const importedTrades = this._tradeList.toArray();
+        try {
+            //Asynchronous call marked with "await" 
+            const trades = await this._tradeService.getTrades(isOk);
 
-                trades
-                    .filter(trade =>
-                        !importedTrades.some(imported =>
-                            trade.isEqualTo(imported)))
-                    .forEach(trade => 
-                        this._tradeList.add(trade));
+            //Check if the trades retrieved are not duplicate by comparing them to the imported trades
+            const importedTrades = this._tradeList.toArray();
+
+            //Typeguard to avoid handling possible "void" return
+            if (trades instanceof Array) {
+                trades.filter(trade =>
+                    !importedTrades.some(imported =>
+                        trade.isEqualTo(imported)))
+                .forEach(trade => 
+                    this._tradeList.add(trade));
 
                 this._tradesView.update(this._tradeList);
-            })
-            .catch(err => {
-                this._messageView.update(err.message);
-            });
+            }
+        } catch (err) {
+            this._messageView.update(err.message);
+        };
 
     }
 }

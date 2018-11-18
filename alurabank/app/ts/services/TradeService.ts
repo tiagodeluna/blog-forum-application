@@ -4,7 +4,7 @@ export class TradeService {
 
     getTrades(handler: HandlerFunction) : Promise<void | Trade[]> {
         //Execute a GET request to retrieve the data from the thrid-party API
-        return fetch("http://localhost:8080/dadosd")
+        return fetch("http://localhost:8080/dados")
             .then(res => handler(res))
             .then(res => res.json())
             .then((dataArray : PartialTrade[]) =>
