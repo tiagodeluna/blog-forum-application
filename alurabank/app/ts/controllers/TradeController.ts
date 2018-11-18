@@ -61,8 +61,19 @@ export default class TradeController {
         //Get data from trade service
         this._tradeService.getTrades(isOk)
             .then((trades : Trade[]) => {
-                trades.forEach(trade => this._tradeList.add(trade));
+                const importedTrades = this._tradeList.toArray();
+
+                trades
+                    .filter(trade =>
+                        !importedTrades.some(imported =>
+                            trade.isEqualTo(imported)))
+                    .forEach(trade => 
+                        this._tradeList.add(trade));
+
                 this._tradesView.update(this._tradeList);
+            })
+            .catch(err => {
+                this._messageView.update(err.message);
             });
 
     }
